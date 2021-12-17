@@ -1,12 +1,18 @@
-import "./App.css";
+import Routes from './routes';
 import { UserProvider } from "./context/userContext";
-import Routes from "./routes";
+import { ProductProvider } from './context/ProductContext';
+import {ItemProvider} from './context/ItemContext';
+
 function App() {
   return (
     <>
-      <UserProvider>
-        <Routes />
-      </UserProvider>
+    <UserProvider>
+    <ProductProvider>
+    <ItemProvider>
+    <Routes />
+    </ItemProvider>
+    </ProductProvider>
+    </UserProvider>
     </>
   );
 }

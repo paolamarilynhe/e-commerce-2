@@ -1,13 +1,13 @@
 import React from "react";
-import useForm from "../hooks/useForm";
+import useForm from "../../hooks/useForm";
 import axios from "axios";
 import { useHistory } from "react-router";
-import { useUserContext } from "../context/userContext";
+import { useUserContext } from "../../context/userContext";
+import './login.css'
 
 export default function Login() {
   const history = useHistory();
   const context = useUserContext();
-  
   const login = (datos) => {
     axios
       .post("https://ecomerce-master.herokuapp.com/api/v1/login", datos)
@@ -15,17 +15,17 @@ export default function Login() {
         window.localStorage.setItem("token", response.data.token);
         const config = {
           headers: {
-            Authorization: `JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTc4NjVkZjU5NjdmMDAxN2ZmOTM3YSIsInJvbGUiOiJDVVNUT01FUiIsImV4cCI6MTYyNTg3NDA3NywiaWF0IjoxNjI1Nzg3Njc3fQ.TKeEOklbDSBxBY2H0pMuaZpDfppiAIgjfQOr24tIQWU`,
+            Authorization: `JWT ${response.data.token}`,
           },
         };
         axios
           .get("https://ecomerce-master.herokuapp.com/api/v1/user/me", config)
           .then((response) => {
             if (response.status === 200) {
+              console.log(context);
               context.setUsuarioActual(response.data);
             }
           });
-        
         history.push("/");
       })
       .catch((error) => {
@@ -37,22 +37,25 @@ export default function Login() {
   //En este caso es la función que hará la petición para hacer login
   const { inputs, handleInput, handleSubmit } = useForm(login, {});
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="login login--card">
+      <h1>Iniciar Sesión</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
+        <div className = "label--group">
+          <label htmlFor="email">Correo:</label>
+          <br/>
           <input
             id="email"
             type="text"
             name="email"
-            placeholder="Ingresa tu email"
+            placeholder="Ingresa tu correo"
             onChange={handleInput}
             value={inputs.email}
+            required
           />
         </div>
-        <div>
-          <label htmlFor="password">Contraseña</label>
+        <div className = "label--group">
+          <label htmlFor="password">Contraseña:</label>
+          <br/>
           <input
             id="password"
             type="password"
@@ -60,9 +63,10 @@ export default function Login() {
             placeholder="Ingresa tu contraseña"
             onChange={handleInput}
             value={inputs.password}
+            required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className="btn btn-login">Iniciar Sesión</button>
       </form>
     </div>
   );

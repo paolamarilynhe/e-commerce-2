@@ -1,7 +1,10 @@
 import React from "react";
-import useForm from "../hooks/useForm";
+import useForm from "../../hooks/useForm";
 import axios from "axios";
 import { useHistory } from "react-router";
+import './signup.css'
+
+
 export default function Signup() {
   const history = useHistory();
   const registerUser = (datos) => {
@@ -25,32 +28,34 @@ export default function Signup() {
   };
   const { inputs, handleInput, handleSubmit } = useForm(registerUser, {});
   return (
-    <div>
-      <h1>Signup</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className = "signup signup--card">
+      <h1>Regístrate</h1>
+      <form onSubmit={handleSubmit} className="form-signup">
+        <div className = "label--group">
           <label for="nombre">Nombre</label>
           <input
             id="first_name"
             type="text"
             name="first_name"
-            placeholder="Pon tu nombre"
+            placeholder="Escribe tu nombre"
             onChange={handleInput}
             value={inputs.nombre}
+            required
           />
         </div>
-        <div>
+        <div className = "label--group">
           <label>Apellidos</label>
           <input
             id="last_name"
             type="text"
             name="last_name"
-            placeholder="Pon tu apellido"
+            placeholder="Escribe tu apellido"
             onChange={handleInput}
             value={inputs.apellidos}
+            required
           />
         </div>
-        <div>
+        <div className = "label--group">
           <label for="birth_date">Fecha de nacimiento</label>
           <input
             id="birth_date"
@@ -58,9 +63,10 @@ export default function Signup() {
             name="birth_date"
             onChange={handleInput}
             value={inputs.edad}
+            required
           />
         </div>
-        <div>
+        <div className = "label--group">
           <label for="gender">Género</label>
           <input
             id="gender"
@@ -68,29 +74,35 @@ export default function Signup() {
             name="gender"
             onChange={handleInput}
             value={inputs.genero}
-          />
+            required
+            />
+            
         </div>
-        <div>
+        <div className = "label--group">
           <label for="email">Email</label>
           <input
             type="text"
             name="email"
+            placeholder="Escribe tu correo"
             onChange={handleInput}
             value={inputs.email}
+            required
           />
         </div>
-        <div>
+        <div className = "label--group">
           <label for="password">Contraseña</label>
           <input
             id="password"
             type="password"
             name="password"
+            placeholder="Escribe tu contraseña"
             onChange={handleInput}
             value={inputs.password}
+            required
           />
         </div>
 
-        <button type="submit">Enviar</button>
+        <button type="submit" className ="btn btn-signup">Enviar</button>
       </form>
     </div>
   );
